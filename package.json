@@ -1,32 +1,16 @@
 {
-  "name": "discord.js-heroku",
-  "version": "1.0.0",
-  "description": "An in-depth guide on deploying your Discord.js bot on Heroku",
+  "//1": "describes your app and its dependencies",
+  "//2": "https://docs.npmjs.com/files/package.json",
+  "//3": "updating this file will download and update your packages",
+  "name": "dargonbot",
+  "version": "0.0.1",
+  "description": "A simple Node app with SQLite as a database management system, instantly up and running.",
   "main": "index.js",
-  "engines": {
-    "node": "8.x",
-    "npm": "*"
-  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/synicalsyntax/discord.js-heroku.git"
-  },
-  "keywords": [
-    "heroku",
-    "discord.js"
-  ],
-  "author": "synicalsyntax",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/synicalsyntax/discord.js-heroku/issues"
-  },
-  "homepage": "https://github.com/synicalsyntax/discord.js-heroku#readme",
   "dependencies": {
-      "express": "^4.16.3",
+    "express": "^4.16.3",
     "sqlite3": "^4.0.2",
     "enmap": "^4.3.1",
     "humanize-duration": "^3.15.3",
@@ -83,6 +67,7 @@
     "sodium": "^2.0.3",
     "uws": "^99.0.0",
     "vps": "^0.0.1",
+    "better-sqlite3": "^4.1.4",
     "rebuild": "^0.1.2",
     "twemoji": "^11.0.1",
     "translate": "^1.0.2",
@@ -91,5 +76,17 @@
     "install": "^0.12.1",
     "mal-scraper": "^2.4.4",
     "simple-youtube-api": "^5.0.2"
-  }
+  },
+  "engines": {
+    "node": "8.x"
+  },
+  "repository": {
+    "url": "https://glitch.com/edit/#!/dargondargon"
+  },
+  "license": "MIT",
+  "keywords": [
+    "node",
+    "glitch",
+    "express"
+  ]
 }
