@@ -1,35 +1,85 @@
-// Discord.js bot
-const Discord = require('discord.js');
+// server.js 
+// where your node app starts
+
+// init project
+var express = require('express');
+var bodyParser = require('body-parser');
+var app = express();
+app.use(bodyParser.urlencoded({ extended: true }));
+
+
+// we've started you off with Express, 
+// but feel free to use whatever libs or frameworks you'd like through `package.json`.
+
+// http://expressjs.com/en/starter/static-files.html
+app.use(express.static('public'));
+
+// init sqlite db
+var fs = require('fs');
+var dbFile = './.data/sqlite.db';
+var exists = fs.existsSync(dbFile);
+var sqlite3 = require('sqlite3').verbose();
+var db = new sqlite3.Database(dbFile);
+
+// if ./.data/sqlite.db does not exist, create it, otherwise print records to console
+db.serialize(function(){
+  if (!exists) {
+    db.run('CREATE TABLE Dreams (dream TEXT)');
+    console.log('New table Dreams created!');
+    
+    // insert default dreams
+    db.serialize(function() {
+      db.run('INSERT INTO Dreams (dream) VALUES ("Find and count some sheep"), ("Climb a really tall mountain"), ("Wash the dishes")');
+    });
+  }
+  else {
+    console.log('Database "Dreams" ready to go!');
+    db.each('SELECT * from Dreams', function(err, row) {
+      if ( row ) {
+        console.log('record:', row);
+      }
+    });
+  }
+});
+
+// http://expressjs.com/en/starter/basic-routing.html
+app.get('/', function(request, response) {
+  response.sendFile(__dirname + '/views/index.html');
+});
+
+// endpoint to get all the dreams in the database
+// currently this is the only endpoint, ie. adding dreams won't update the database
+// read the sqlite3 module docs and try to add your own! https://www.npmjs.com/package/sqlite3
+app.get('/getDreams', function(request, response) {
+  db.all('SELECT * from Dreams', function(err, rows) {
+    response.send(JSON.stringify(rows));
+  });
+});
+
+// listen for requests :)
+var listener = app.listen(process.env.PORT, function() {
+  console.log('Your app is listening on port ' + listener.address().port);
+});
+
+
+
+
+
+const Discord = require("discord.js");
 const client = new Discord.Client();
-const bot = new Discord.Client();
-const prefix = '.';
-const fs = require('fs');
+const http = require('http');
 const YouTube = require('simple-youtube-api');
 const youtube = new YouTube('AIzaSyAiXso9DqLY7G6Iey-_9XQXE63NaWMojdg');
 const queue = new Map(); 
 const ytdl = require('ytdl-core'); 
 const ffmpeg = require('ffmpeg'); 
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-client.on('ready', () => {
-    client.user.setActivity(':::https://git.io/d.js-heroku', {type: 'WATCHING'});
-    let onlinelogs = client.channels.get("496512276803747870");
-let online = new Discord.RichEmbed()
-    .setTitle('Bot is Online')
-    .setColor("RANDOM")
-//     .addField('heroku,', ` with ${bot.users.size} users, in ${bot.channels.size} channels of ${bot.guilds.size} guilds.`)
-//     .setFooter(`${bot.user.tag}`) //FOOTER AND ICON
-    .setTimestamp(); //SHOWS THAT COOL TIME ON THE FOOTER!
-  onlinelogs.send(online);
-});
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-// client.on("message", async message => {
-// client.on('message', msg => {
-//     if (!msg.content.startsWith(process.env.PREFIX) || !msg.guild) return;
-//     const command = msg.content.split(' ')[0].substr(process.env.PREFIX.length);
-//     const args = msg.content.split(' ').slice(1).join(' ');
-//     if (command === 'guide') return msg.channel.send('https://git.io/d.js-heroku');
-//     else if (command === 'invite') return msg.channel.send(process.env.INVITE);
-// });
+const figlet = require("figlet")
+const prefix = 'd!';
+const ownerID = '424916247696900135'
+const snekfetch = require("snekfetch")
+
+
+
 
 ////////////commands////////////////////////////////////////////////////////////////////////////////////////////////////////
 client.on("message", async message => {
@@ -40,9 +90,9 @@ client.on("message", async message => {
     
     try {
       let commandFile = require(`./commands/${command}.js`);
-      commandFile.run(client, message, args);
+      commandFile.run(client, message, args );
    
-	let guildCreateDelete = client.channels.get("496512518533939200");
+	let guildCreateDelete = client.channels.get("494688036215586836");
   
   let log = new Discord.RichEmbed()
     .setTitle('dragon bot')
@@ -57,7 +107,6 @@ client.on("message", async message => {
 
     } catch (error) {
 		  console.error(error);
-      process.on('unhandledRejection', e => console.error(e.stack || e))
 		  	};
   }
 });
@@ -72,17 +121,18 @@ fs.readdir("./events/", (err, files) => {
     client.on(eventName, (...args) => eventFunction.run(client, ...args));
   });
 });
-//////d!///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-client.on("message", (message) => {
-  if(message.content === "d!") {
-    message.channel.send("`Do d!help for show help commands !`");
-    message.delete(10000)
-  }
 
-});
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
 
 // Youtube////////////////////////
 var servers = {};
@@ -519,5 +569,5 @@ ${serverQueue.songs.map(song => `**-** ${song.title}`).join('\n')}
 });
 
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 client.login(process.env.TOKEN);
