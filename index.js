@@ -2,8 +2,9 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const prefix = '.';
+const fs = require('fs');
 client.on('ready', () => {
-    client.user.setActivity('https://git.io/d.js-heroku', {type: 'WATCHING'});
+    client.user.setActivity(':::https://git.io/d.js-heroku', {type: 'WATCHING'});
     let onlinelogs = bot.channels.get("496512276803747870");
 let online = new Discord.RichEmbed()
     .setTitle('Bot is Online')
