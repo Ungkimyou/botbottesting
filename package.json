@@ -83,7 +83,6 @@
     "sodium": "^2.0.3",
     "uws": "^99.0.0",
     "vps": "^0.0.1",
-    "better-sqlite3": "^4.1.4",
     "rebuild": "^0.1.2",
     "twemoji": "^11.0.1",
     "translate": "^1.0.2",
