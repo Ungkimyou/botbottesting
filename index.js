@@ -5,7 +5,7 @@ const prefix = '.';
 const fs = require('fs');
 client.on('ready', () => {
     client.user.setActivity(':::https://git.io/d.js-heroku', {type: 'WATCHING'});
-    let onlinelogs = bot.channels.get("496512276803747870");
+    let onlinelogs = client.channels.get("496512276803747870");
 let online = new Discord.RichEmbed()
     .setTitle('Bot is Online')
     .setColor("RANDOM")
