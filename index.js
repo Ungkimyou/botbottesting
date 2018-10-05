@@ -1,6 +1,7 @@
 // Discord.js bot
 const Discord = require('discord.js');
 const client = new Discord.Client();
+const bot = new Discord.Client();
 const prefix = '.';
 const fs = require('fs');
 client.on('ready', () => {
