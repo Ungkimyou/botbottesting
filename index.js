@@ -1,18 +1,17 @@
-const Discord = require("discord.js");
+// Discord.js bot
+const Discord = require('discord.js');
 const client = new Discord.Client();
- 
-// Set the prefix
-let prefix = "!";
-client.on("message", (message) => {
-  // Exit and stop if the prefix is not there or if user is a bot
-  if (!message.content.startsWith(prefix) || message.author.bot) return;
- 
-  if (message.content.startsWith(prefix + "ping")) {
-    message.channel.send("pong!");
-  } else
-  if (message.content.startsWith(prefix + "foo")) {
-    message.channel.send("bar!");
-  }
+
+client.on('ready', () => {
+    client.user.setActivity('https://git.io/d.js-heroku', {type: 'WATCHING'});
 });
- 
-client.login("process.env.SECRET");
+
+client.on('message', msg => {
+    if (!msg.content.startsWith(process.env.PREFIX) || !msg.guild) return;
+    const command = msg.content.split(' ')[0].substr(process.env.PREFIX.length);
+    const args = msg.content.split(' ').slice(1).join(' ');
+    if (command === 'guide') return msg.channel.send('https://git.io/d.js-heroku');
+    else if (command === 'invite') return msg.channel.send(process.env.INVITE);
+});
+
+client.login(process.env.TOKEN);
