@@ -74,6 +74,7 @@
     "google": "^2.1.0",
     "install": "^0.12.1",
     "mal-scraper": "^2.4.4",
+    "ffmpeg": "^0.0.4",
     "simple-youtube-api": "^5.0.2"
   },
   "engines": {
